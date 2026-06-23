@@ -1,0 +1,259 @@
+{% extends 'store/main.html' %} {% load static %} {% block content %}
+<div class="animate-fade-in max-w-6xl mx-auto w-full">
+    <a
+        href="{% url 'cart' %}"
+        class="inline-flex items-center gap-2 text-sm font-medium text-secondary/70 hover:text-primary transition-colors mb-8 bg-white/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/40 shadow-sm hover:shadow-md"
+    >
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        Back to Cart
+    </a>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Forms -->
+        <div class="lg:w-7/12 space-y-6">
+            <div
+                class="bg-white/40 backdrop-blur-xl border border-white/50 rounded-3xl p-8 shadow-xl"
+                id="form-wrapper"
+            >
+                <form id="form" class="space-y-8">
+                    {% csrf_token %}
+                    <div id="user-info" class="space-y-4">
+                        <h3
+                            class="text-xl font-serif italic font-semibold text-secondary mb-4 border-b border-white/40 pb-2"
+                        >
+                            Contact Details
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input
+                                required
+                                class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                type="text"
+                                name="name"
+                                placeholder="Full Name"
+                            />
+                            <input
+                                required
+                                class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                type="email"
+                                name="email"
+                                placeholder="Email Address"
+                            />
+                        </div>
+                    </div>
+
+                    <div id="shipping-info" class="space-y-4">
+                        <h3
+                            class="text-xl font-serif italic font-semibold text-secondary mb-4 border-b border-white/40 pb-2"
+                        >
+                            Shipping Information
+                        </h3>
+                        <div class="space-y-4">
+                            <input
+                                required
+                                class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                type="text"
+                                name="address"
+                                placeholder="Street Address"
+                            />
+                            <input
+                                class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                type="tel"
+                                name="phone_number"
+                                placeholder="Phone Number"
+                            />
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <input
+                                    required
+                                    class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                    type="text"
+                                    name="city"
+                                    placeholder="City"
+                                />
+                                <input
+                                    class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                    type="text"
+                                    name="state"
+                                    placeholder="State/Province"
+                                />
+                                <input
+                                    class="w-full bg-white/50 border border-white/60 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-secondary placeholder-secondary/50 outline-none transition-all"
+                                    type="text"
+                                    name="zipcode"
+                                    placeholder="Zip/Postal Code"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/40">
+                        <input
+                            id="form-button"
+                            class="w-full bg-primary/90 hover:bg-primary text-white py-4 rounded-xl font-medium transition-all shadow-md hover:shadow-lg cursor-pointer text-lg"
+                            type="submit"
+                            value="Continue to Payment"
+                        />
+                    </div>
+                </form>
+            </div>
+
+            <div
+                class="bg-white/40 backdrop-blur-xl border border-white/50 rounded-3xl p-8 shadow-xl hidden animate-fade-in"
+                id="payment-info"
+            >
+                <h3
+                    class="text-xl font-serif italic font-semibold text-secondary mb-6 border-b border-white/40 pb-2"
+                >
+                    Payment Method
+                </h3>
+                <div id="paypal-button-container" class="mt-4"></div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="lg:w-5/12">
+            <div
+                class="bg-white/30 backdrop-blur-md border border-white/40 rounded-3xl p-8 shadow-lg sticky top-28"
+            >
+                <h3
+                    class="text-2xl font-serif italic font-semibold text-secondary mb-6 border-b border-white/40 pb-4"
+                >
+                    Order Summary
+                </h3>
+
+                <div
+                    class="max-h-[300px] overflow-y-auto pr-2 space-y-4 mb-6 custom-scrollbar"
+                >
+                    {% for item in items %}
+                    <div
+                        class="flex items-center gap-4 bg-white/40 p-3 rounded-xl border border-white/50 shadow-sm"
+                    >
+                        <img
+                            src="{{item.product.imageURL}}"
+                            class="w-16 h-16 object-cover rounded-lg"
+                        />
+                        <div class="flex-grow">
+                            <p
+                                class="font-serif font-semibold text-secondary leading-tight"
+                            >
+                                {{item.product.name}}
+                            </p>
+                            <p class="text-xs text-secondary/60">
+                                Qty: {{item.quantity}}
+                            </p>
+                        </div>
+                        <p class="font-bold text-secondary">
+                            ${{item.product.price|floatformat:2}}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="space-y-3 pt-6 border-t border-white/40">
+                    <div
+                        class="flex justify-between text-secondary/80 font-medium"
+                    >
+                        <span>Total Items</span>
+                        <span>{{order.get_cart_items}}</span>
+                    </div>
+                    <div
+                        class="flex justify-between text-2xl font-bold text-secondary pt-2"
+                    >
+                        <span>Total</span>
+                        <span>${{order.get_cart_total|floatformat:2}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=BAAcD7GDNN-87PTpvSXTEu4NDMEJTG_dsvaQjaz_c747w8CvGdTRI0uWGxIDI1LdvysXueGVPU6YzOaBm0&currency=USD"></script>
+
+<script>
+    var total = "{{order.get_cart_total}}";
+
+    paypal
+        .Buttons({
+            style: { color: "gold", shape: "pill", label: "pay" },
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [
+                        { amount: { value: parseFloat(total).toFixed(2) } },
+                    ],
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    submitFormData();
+                });
+            },
+        })
+        .render("#paypal-button-container");
+</script>
+
+<script type="text/javascript">
+    var shipping = "{{order.shipping}}";
+    if (shipping == "False")
+        document.getElementById("shipping-info").innerHTML = "";
+    if (user != "AnonymousUser")
+        document.getElementById("user-info").innerHTML = "";
+    if (shipping == "False" && user != "AnonymousUser") {
+        document.getElementById("form-wrapper").classList.add("hidden");
+        document.getElementById("payment-info").classList.remove("hidden");
+    }
+
+    var form = document.getElementById("form");
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        document.getElementById("form-button").classList.add("hidden");
+        document.getElementById("payment-info").classList.remove("hidden");
+    });
+
+    function submitFormData() {
+        var userFormData = { name: null, email: null, total: total };
+        var shippingInfo = {
+            address: null,
+            city: null,
+            state: null,
+            zipcode: null,
+            phone_number: null,
+        };
+
+        if (shipping != "False") {
+            shippingInfo.address = form.address.value;
+            shippingInfo.city = form.city.value;
+            shippingInfo.state = form.state.value;
+            shippingInfo.zipcode = form.zipcode.value;
+            shippingInfo.phone_number = form.phone_number
+                ? form.phone_number.value
+                : "";
+        }
+
+        if (user == "AnonymousUser") {
+            userFormData.name = form.name.value;
+            userFormData.email = form.email.value;
+        }
+
+        var url = "/process_order/";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken,
+            },
+            body: JSON.stringify({
+                form: userFormData,
+                shipping: shippingInfo,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                alert("Transaction completed. Thank you!");
+                cart = {};
+                document.cookie =
+                    "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+                window.location.href = "{% url 'store' %}";
+            });
+    }
+</script>
+{% endblock content %}

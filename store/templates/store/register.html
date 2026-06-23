@@ -1,0 +1,48 @@
+{% extends 'store/main.html' %} {% block content %}
+<div class="animate-fade-in max-w-md mx-auto w-full">
+    <div
+        class="bg-white/40 backdrop-blur-xl border border-white/50 rounded-[2rem] p-8 sm:p-10 shadow-2xl"
+    >
+        <div class="text-center mb-8">
+            <span
+                class="material-symbols-outlined text-4xl text-primary/80 mb-2"
+                >person_add</span
+            >
+            <h1 class="text-3xl font-serif italic font-semibold text-secondary">
+                Join Us
+            </h1>
+            <p class="text-sm text-secondary/60 mt-2">
+                Create an account to track orders and more.
+            </p>
+        </div>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <!-- Styled form rendering -->
+            <div
+                class="[&>p>label]:block [&>p>label]:text-sm [&>p>label]:font-medium [&>p>label]:text-secondary/80 [&>p>label]:mb-1 [&>p>input]:w-full [&>p>input]:bg-white/50 [&>p>input]:border [&>p>input]:border-white/60 [&>p>input]:focus:border-primary [&>p>input]:focus:ring-1 [&>p>input]:focus:ring-primary [&>p>input]:rounded-xl [&>p>input]:px-4 [&>p>input]:py-2.5 [&>p>input]:text-secondary [&>p>input]:outline-none [&>p>input]:transition-all [&>p>input]:shadow-sm [&>p>ul]:text-xs [&>p>ul]:text-red-500 [&>p>ul]:mt-1 [&>p>span.helptext]:text-xs [&>p>span.helptext]:text-secondary/50"
+            >
+                {{ form.as_p }}
+            </div>
+
+            <button
+                type="submit"
+                class="w-full bg-primary/90 hover:bg-primary text-white py-3.5 rounded-xl font-medium transition-all shadow-md hover:shadow-lg mt-6"
+            >
+                Create Account
+            </button>
+        </form>
+
+        <div class="text-center mt-8 pt-6 border-t border-white/40">
+            <p class="text-sm text-secondary/70">
+                Already have an account?
+                <a
+                    href="{% url 'login' %}"
+                    class="font-semibold text-primary hover:text-primaryHover transition-colors"
+                    >Sign In</a
+                >
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

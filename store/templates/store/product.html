@@ -1,0 +1,58 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<div class="animate-fade-in max-w-5xl mx-auto w-full">
+    <a href="{% url 'store' %}" class="inline-flex items-center gap-2 text-sm font-medium text-secondary/70 hover:text-primary transition-colors mb-8 bg-white/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/40 shadow-sm hover:shadow-md">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        Back to Collection
+    </a>
+
+    <div class="bg-white/30 backdrop-blur-xl border border-white/40 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row">
+        
+        <!-- Image Section -->
+        <div class="lg:w-1/2 relative bg-white/20 p-8 flex items-center justify-center">
+            <img src="{{ product.imageURL }}" alt="{{ product.name }}" class="object-contain w-full max-h-[500px] drop-shadow-2xl rounded-xl">
+        </div>
+
+        <!-- Details Section -->
+        <div class="lg:w-1/2 p-8 sm:p-12 flex flex-col">
+            {% if product.category %}
+            <p class="text-xs uppercase tracking-widest font-semibold text-primary/80 mb-3">{{ product.category.name }}</p>
+            {% endif %}
+            
+            <h1 class="text-4xl sm:text-5xl font-serif italic font-semibold text-secondary mb-6">{{ product.name }}</h1>
+            <p class="text-3xl font-bold text-secondary mb-8">${{ product.price|floatformat:2 }}</p>
+            
+            {% if product.description %}
+            <div class="prose prose-sm text-secondary/80 mb-10 leading-relaxed">
+                <p>{{ product.description }}</p>
+            </div>
+            {% endif %}
+            
+            <div class="mt-auto space-y-4 pt-8 border-t border-white/30">
+                <div class="flex items-center gap-2 mb-6">
+                    {% if product.in_stock %}
+                    <span class="material-symbols-outlined text-green-600">check_circle</span>
+                    <span class="text-sm font-medium text-green-800">In Stock and ready to ship</span>
+                    {% else %}
+                    <span class="material-symbols-outlined text-red-500">cancel</span>
+                    <span class="text-sm font-medium text-red-800">Currently out of stock</span>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    {% if product.in_stock %}
+                    <button data-product="{{product.id}}" data-action="add" data-stock="{{product.stock}}" class="flex-1 bg-primary/90 hover:bg-primary text-white px-8 py-4 rounded-xl font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 update-cart">
+                        <span class="material-symbols-outlined">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+                    {% endif %}
+                    <a href="{% url 'cart' %}" class="flex-1 bg-white/50 hover:bg-white text-secondary px-8 py-4 rounded-xl font-medium transition-all shadow-sm hover:shadow-md border border-white/50 flex items-center justify-center gap-2 text-center">
+                        View Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

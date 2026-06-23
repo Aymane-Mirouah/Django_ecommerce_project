@@ -1,0 +1,264 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Old Kech</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
+        />
+        <meta
+            name="description"
+            content="Discover premium products curated with elegance."
+        />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Material Symbols -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Tailwind CSS (CDN for development) -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ["Inter", "sans-serif"],
+                            serif: ["Playfair Display", "serif"],
+                        },
+                        colors: {
+                            primary: "#b45309", // Amber 700 - warm, elegant accent
+                            primaryHover: "#92400e", // Amber 800
+                            secondary: "#0f172a", // Slate 900
+                        },
+                        animation: {
+                            "fade-in": "fadeIn 0.6s ease-out",
+                            "slide-up":
+                                "slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+                        },
+                        keyframes: {
+                            fadeIn: {
+                                "0%": { opacity: "0" },
+                                "100%": { opacity: "1" },
+                            },
+                            slideUp: {
+                                "0%": {
+                                    opacity: "0",
+                                    transform: "translateY(20px)",
+                                },
+                                "100%": {
+                                    opacity: "1",
+                                    transform: "translateY(0)",
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+        </script>
+
+        <style>
+            body {
+                background-image: url("{% static 'images/bgPic.png' %}");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position: center;
+            }
+
+            /* Custom scrollbar for webkit */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: rgba(0, 0, 0, 0.4);
+            }
+        </style>
+
+        <script type="text/javascript">
+            var user = "{{request.user}}";
+            function getToken(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== "") {
+                    var cookies = document.cookie.split(";");
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (
+                            cookie.substring(0, name.length + 1) ===
+                            name + "="
+                        ) {
+                            cookieValue = decodeURIComponent(
+                                cookie.substring(name.length + 1),
+                            );
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrftoken = getToken("csrftoken");
+
+            function getCookie(name) {
+                var cookieArr = document.cookie.split(";");
+                for (var i = 0; i < cookieArr.length; i++) {
+                    var cookiePair = cookieArr[i].split("=");
+                    if (name == cookiePair[0].trim()) {
+                        return decodeURIComponent(cookiePair[1]);
+                    }
+                }
+                return null;
+            }
+            var cart = JSON.parse(getCookie("cart")) || {};
+            if (Object.keys(cart).length === 0) {
+                document.cookie =
+                    "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+            }
+        </script>
+    </head>
+
+    <body
+        class="font-sans text-secondary min-h-screen flex flex-col selection:bg-primary selection:text-white"
+    >
+        <!-- Navbar -->
+        <nav
+            class="sticky top-0 z-50 w-full bg-white/40 backdrop-blur-xl border-b border-white/20 shadow-sm transition-all duration-300"
+        >
+            <div
+                class="max-w-7xl mx-auto px-6 sm:px-8 h-20 flex justify-between items-center"
+            >
+                <a
+                    href="{% url 'store' %}"
+                    class="font-serif italic font-semibold text-3xl tracking-wide text-secondary hover:text-primary transition-colors"
+                >
+                    Old Kech
+                </a>
+
+                <div class="flex items-center gap-6 sm:gap-8">
+                    <a
+                        href="{% url 'store' %}"
+                        class="text-sm font-medium hover:text-primary transition-colors hidden sm:block"
+                        >Store</a
+                    >
+                    {% if user.is_authenticated %}
+                    <a
+                        href="{% url 'orders' %}"
+                        class="text-sm font-medium hover:text-primary transition-colors hidden sm:block"
+                        >My Orders</a
+                    >
+                    {% endif %}
+
+                    <!-- Cart Icon -->
+                    <a
+                        href="{% url 'cart' %}"
+                        class="relative group flex items-center justify-center transition-transform hover:scale-110"
+                    >
+                        <span
+                            class="material-symbols-outlined text-[28px] text-secondary group-hover:text-primary transition-colors"
+                            >shopping_cart</span
+                        >
+                        <span
+                            id="cart-total"
+                            class="absolute -top-1 -right-2 bg-primary text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center shadow-lg border border-white/50"
+                            >{{cartItems|default:"0"}}</span
+                        >
+                    </a>
+
+                    <div
+                        class="hidden sm:flex items-center gap-4 border-l border-white/40 pl-6 ml-2"
+                    >
+                        {% if user.is_authenticated %}
+                        <span
+                            class="text-sm font-serif italic text-secondary/80"
+                            >Hello, {{user.username}}</span
+                        >
+                        <a
+                            href="{% url 'logout' %}"
+                            class="text-xs font-semibold uppercase tracking-wider text-secondary/60 hover:text-red-500 transition-colors"
+                            >Logout</a
+                        >
+                        {% else %}
+                        <a
+                            href="{% url 'login' %}"
+                            class="text-sm font-medium hover:text-primary transition-colors"
+                            >Sign In</a
+                        >
+                        <a
+                            href="{% url 'register' %}"
+                            class="bg-primary/90 hover:bg-primary text-white px-5 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg backdrop-blur-sm"
+                            >Sign Up</a
+                        >
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div
+            class="max-w-7xl mx-auto w-full px-6 mt-6 absolute left-1/2 -translate-x-1/2 z-40 animate-slide-up pointer-events-none"
+        >
+            {% for message in messages %}
+            <div
+                class="pointer-events-auto px-6 py-4 rounded-2xl backdrop-blur-md shadow-xl text-sm font-medium border flex items-center gap-3 {% if message.tags == 'success' %}bg-green-500/20 border-green-500/30 text-green-800 {% elif message.tags == 'error' %}bg-red-500/20 border-red-500/30 text-red-800 {% else %}bg-primary/20 border-primary/30 text-primaryHover{% endif %}"
+            >
+                <span class="material-symbols-outlined">
+                    {% if message.tags == 'success' %}check_circle{% endif %}{% if message.tags == 'error' %}error{% endif %}{% if message.tags != 'success' and message.tags != 'error' %}info{% endif %}
+                </span>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Main Content -->
+        <main
+            class="flex-grow w-full max-w-7xl mx-auto px-6 py-12 flex flex-col relative z-10"
+        >
+            {% block content %} {% endblock content %}
+        </main>
+
+        <!-- Footer -->
+        <footer
+            class="mt-auto bg-white/30 backdrop-blur-lg border-t border-white/20 py-10 relative z-10"
+        >
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <p class="font-serif text-2xl italic font-semibold mb-2">
+                    Old Kech
+                </p>
+                <p class="text-sm text-secondary/70 mb-6 max-w-sm mx-auto">
+                    Created on Earth by Aymane, Abdennacer, Salah and Ayoub.
+                </p>
+                <p class="text-xs tracking-widest uppercase text-secondary/50">
+                    &copy; {% now "Y" %} Old Kech.
+                </p>
+            </div>
+        </footer>
+
+        <!-- Ensure CSRF cookie is set for AJAX requests (hidden) -->
+        {% csrf_token %}
+
+        <!-- Script references -->
+        <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+    </body>
+</html>

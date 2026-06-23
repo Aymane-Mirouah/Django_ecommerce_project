@@ -1,0 +1,41 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<div class="animate-fade-in max-w-5xl mx-auto w-full">
+    <div class="bg-white/40 backdrop-blur-xl border border-white/50 rounded-3xl p-8 sm:p-10 shadow-xl">
+        <div class="flex items-center gap-3 mb-8 border-b border-white/40 pb-6">
+            <span class="material-symbols-outlined text-3xl text-primary/80">history</span>
+            <h1 class="text-3xl font-serif italic font-semibold text-secondary">My Orders</h1>
+        </div>
+
+        {% if orders %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-white/50 text-secondary/70 text-sm uppercase tracking-widest font-semibold">
+                        <th class="py-4 px-4">Order ID</th>
+                        <th class="py-4 px-4">Date Ordered</th>
+                        <th class="py-4 px-4 text-right">Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/30">
+                    {% for order in orders %}
+                    <tr class="hover:bg-white/30 transition-colors">
+                        <td class="py-4 px-4 font-medium text-secondary">#{{ order.transaction_id }}</td>
+                        <td class="py-4 px-4 text-secondary/80">{{ order.date_ordered|date:"M j, Y, g:i a" }}</td>
+                        <td class="py-4 px-4 text-right font-bold text-secondary">${{ order.get_cart_total|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <span class="material-symbols-outlined text-5xl text-secondary/30 mb-4">receipt_long</span>
+            <h2 class="text-xl font-serif font-semibold text-secondary mb-2">No Past Orders</h2>
+            <p class="text-secondary/60">You haven't placed any orders with us yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

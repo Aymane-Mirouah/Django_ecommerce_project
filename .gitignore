@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+
+# Django
+*.log
+local_settings.py
+
+# Database
+db.sqlite3
+
+# Uploaded media (product images uploaded by admin)
+static/images/*
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Project-specific — migration files (committed by convention, but exclude auto-generated backup)
+# Note: store/migrations/ is intentionally tracked — do not gitignore it
