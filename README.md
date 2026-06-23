@@ -6,6 +6,16 @@ Old Kech is a full-stack e-commerce web application developed using the Django w
 
 ---
 
+##  The Team
+
+| Avatar | Contributor |
+| :---: | :--- |
+| <img src="https://github.com/Aymane-Mirouah.png" width="50" height="50" style="border-radius:50%;"/> | **Aymane Mirouah**<br>[@Aymane-Mirouah](https://github.com/Aymane-Mirouah) |
+| <img src="https://github.com/abdennacerbousadra0-ctrl.png" width="50" height="50" style="border-radius:50%;"/> | **Abdennacer bousadra**<br>[@abdennacerbousadra0-ctrl](https://github.com/abdennacerbousadra0-ctrl) |
+| <img src="https://github.com/salaheddinemondo.png" width="50" height="50" style="border-radius:50%;"/> | **salah eddine**<br>[@salaheddinemondo](https://github.com/salaheddinemondo) |
+
+---
+
 ## Features
 
 ### Shopping & Cart
