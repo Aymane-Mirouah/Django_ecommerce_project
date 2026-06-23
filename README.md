@@ -4,7 +4,6 @@
 
 Old Kech is a full-stack e-commerce web application developed using the Django web framework with a MySQL backend (managed via XAMPP) and styled with Tailwind CSS. The platform supports a complete online shopping workflow including product browsing, guest and authenticated cart management, stock validation, and payment processing through PayPal. A key architectural focus is the **guest checkout** flow, which allows users to complete purchases without requiring account registration. The front end is fully responsive and incorporates CSS-only interactive UI elements for a polished user experience.
 
----
 
 ##  The Team
 
@@ -14,7 +13,6 @@ Old Kech is a full-stack e-commerce web application developed using the Django w
 | <img src="https://github.com/abdennacerbousadra0-ctrl.png" width="50" height="50" style="border-radius:50%;"/> | **Abdennacer bousadra**<br>[@abdennacerbousadra0-ctrl](https://github.com/abdennacerbousadra0-ctrl) |
 | <img src="https://github.com/salaheddinemondo.png" width="50" height="50" style="border-radius:50%;"/> | **salah eddine**<br>[@salaheddinemondo](https://github.com/salaheddinemondo) |
 
----
 
 ## Features
 
